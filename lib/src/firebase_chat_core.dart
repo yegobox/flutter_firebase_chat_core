@@ -129,7 +129,7 @@ class FirebaseChatCore {
       'type': types.RoomType.direct.toShortString(),
       'updatedAt': FieldValue.serverTimestamp(),
       'userIds': users.map((u) => u.id).toList(),
-      'userRoles': null,
+      'userRoles': null
     });
 
     return types.Room(
@@ -246,7 +246,8 @@ class FirebaseChatCore {
   /// Sends a message to the Firestore. Accepts any partial message and a
   /// room ID. If arbitraty data is provided in the [partialMessage]
   /// does nothing.
-  void sendMessage(dynamic partialMessage, String roomId) async {
+  void sendMessage(dynamic partialMessage, types.Room room) async {
+    final String roomId = room.id;
     if (firebaseUser == null) return;
 
     types.Message? message;
@@ -288,6 +289,26 @@ class FirebaseChatCore {
           .collection('${config.roomsCollectionName}/$roomId/messages')
           .add(messageMap);
     }
+
+    /// update the room with the last message in the room
+    updateRoom(room, {'lastMessage': partialMessage.text});
+  }
+
+  /// Updates a Room in the Firestore. with lastMessageId
+  void updateRoom(types.Room room, Map updatable) async {
+    if (firebaseUser == null) return;
+
+    final roomMap = room.toJson();
+
+    roomMap['updatedAt'] = FieldValue.serverTimestamp();
+
+    ///TODOshould be lastMessages
+    // roomMap['lastMessage'] = updatable['lastMessage'];
+
+    // await FirebaseFirestore.instance
+    //     .collection(config.roomsCollectionName)
+    //     .doc(room.id)
+    //     .update(roomMap);
   }
 
   /// Updates a message in the Firestore. Accepts any message and a

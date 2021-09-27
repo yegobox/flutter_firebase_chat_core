@@ -82,6 +82,13 @@ class FirebaseChatCore {
     );
   }
 
+  /// Test the dynamic link and other things we need to log inside the app! put them in firestore temporarily
+  Future<void> logDynamicLink(String link) async {
+    await FirebaseFirestore.instance
+        .collection('dynamic_links')
+        .add({'link': link, 'createdAt': FieldValue.serverTimestamp()});
+  }
+
   /// Creates a direct chat for 2 people. Add [metadata] for any additional
   /// custom data.
   Future<types.Room> createRoom(

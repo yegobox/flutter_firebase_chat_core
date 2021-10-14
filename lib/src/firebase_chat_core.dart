@@ -263,24 +263,28 @@ class FirebaseChatCore {
       message = types.CustomMessage.fromPartial(
         author: types.User(id: firebaseUser!.uid),
         id: '',
+        roomId: roomId,
         partialCustom: partialMessage,
       );
     } else if (partialMessage is types.PartialFile) {
       message = types.FileMessage.fromPartial(
         author: types.User(id: firebaseUser!.uid),
         id: '',
+        roomId: roomId,
         partialFile: partialMessage,
       );
     } else if (partialMessage is types.PartialImage) {
       message = types.ImageMessage.fromPartial(
         author: types.User(id: firebaseUser!.uid),
         id: '',
+        roomId: roomId,
         partialImage: partialMessage,
       );
     } else if (partialMessage is types.PartialText) {
       message = types.TextMessage.fromPartial(
         author: types.User(id: firebaseUser!.uid),
         id: '',
+        roomId: roomId,
         partialText: partialMessage,
       );
     }

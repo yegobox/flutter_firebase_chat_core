@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'firebase_chat_core_config.dart';
 import 'util.dart';
+import 'package:flipper_models/business.dart';
 
 /// Provides access to Firebase chat data. Singleton, use
 /// FirebaseChatCore.instance to aceess methods.
@@ -163,6 +164,31 @@ class FirebaseChatCore {
       'role': user.role?.toShortString(),
       'updatedAt': FieldValue.serverTimestamp(),
     });
+  }
+
+  Stream<List<Business>> contacts() {
+    return FirebaseFirestore.instance.collection('contacts').snapshots().map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => Business.fromJson(doc.data()),
+              )
+              .toList(),
+        );
+  }
+
+  void addContact({required Business contact}) {
+    //check if in contacts collection there is no contact that has contact.userId
+    // loop through contacts and check if contact.userId is in the list
+    // if not add contact to contacts collection
+    FirebaseFirestore.instance
+        .collection('contacts')
+        .doc(contact.userId)
+        .set(contact.toJson());
+    // FirebaseFirestore.instance.collection('contacts').add(contact.toJson());
+  }
+
+  void deleteRoom({required String roomId}) {
+    FirebaseFirestore.instance.collection('rooms').doc(roomId).delete();
   }
 
   /// Removes [types.User] from `users` collection in Firebase

@@ -276,6 +276,24 @@ class FirebaseChatCore {
         );
   }
 
+  /// return Room given a roomId
+  /// if room does not exist, return null
+  /// if room exists, return a Room
+  Future<types.Room?> roomFromId(String roomId) async {
+    final doc = await FirebaseFirestore.instance
+        .collection(config.roomsCollectionName)
+        .doc(roomId)
+        .get();
+
+    if (!doc.exists) return null;
+
+    /// transform doc to json
+    final data = doc.data();
+    final room = types.Room.fromJson(data!);
+
+    return room;
+  }
+
   /// Sends a message to the Firestore. Accepts any partial message and a
   /// room ID. If arbitraty data is provided in the [partialMessage]
   /// does nothing.

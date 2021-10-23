@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flipper_routing/routes.logger.dart';
 
 /// Extension with one [toShortString] method
 extension RoleToShortString on types.Role {
@@ -9,6 +10,8 @@ extension RoleToShortString on types.Role {
     return toString().split('.').last;
   }
 }
+
+final log = getLogger('KeyPadHead');
 
 /// Extension with one [toShortString] method
 extension RoomTypeToShortString on types.RoomType {
@@ -24,6 +27,7 @@ Future<Map<String, dynamic>> fetchUser(
   String usersCollectionName, {
   String? role,
 }) async {
+  log.d(userId);
   final doc = await FirebaseFirestore.instance
       .collection(usersCollectionName)
       .doc(userId)

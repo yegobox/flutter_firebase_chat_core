@@ -346,7 +346,7 @@ class FirebaseChatCore {
     }
 
     /// update the room with the last message in the room
-    updateRoom(room, {'lastMessage': partialMessage.text});
+    updateRoom(room, {'lastMessages': partialMessage.text});
   }
 
   /// Updates a Room in the Firestore. with lastMessageId
@@ -354,16 +354,13 @@ class FirebaseChatCore {
     if (firebaseUser == null) return;
 
     final roomMap = room.toJson();
-
     roomMap['updatedAt'] = FieldValue.serverTimestamp();
+    roomMap['lastMessages'] = updatable['lastMessages'];
 
-    ///TODOshould be lastMessages
-    // roomMap['lastMessage'] = updatable['lastMessage'];
-
-    // await FirebaseFirestore.instance
-    //     .collection(config.roomsCollectionName)
-    //     .doc(room.id)
-    //     .update(roomMap);
+    await FirebaseFirestore.instance
+        .collection(config.roomsCollectionName)
+        .doc(room.id)
+        .update(roomMap);
   }
 
   /// Updates a message in the Firestore. Accepts any message and a

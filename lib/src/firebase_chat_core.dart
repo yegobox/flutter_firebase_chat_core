@@ -346,16 +346,19 @@ class FirebaseChatCore {
     }
 
     /// update the room with the last message in the room
-    updateRoom(room, {'lastMessages': partialMessage.text});
+    /// {'lastMessages': partialMessage.text}
+    updateRoom(room);
   }
 
   /// Updates a Room in the Firestore. with lastMessageId
-  void updateRoom(types.Room room, Map updatable) async {
+  void updateRoom(types.Room room) async {
     if (firebaseUser == null) return;
 
     final roomMap = room.toJson();
     roomMap['updatedAt'] = FieldValue.serverTimestamp();
-    roomMap['lastMessages'] = updatable['lastMessages'];
+    // FIXME: learn how to update lastMessages
+
+    // roomMap['lastMessages'] = FieldValue.arrayUnion(updatable['lastMessages']);
 
     await FirebaseFirestore.instance
         .collection(config.roomsCollectionName)

@@ -99,7 +99,8 @@ class FirebaseChatCore {
     final fu = firebaseUser;
 
     if (fu == null) return Future.error('User does not exist');
-
+    log.d(fu.uid);
+    log.d(config.roomsCollectionName);
     final query = await FirebaseFirestore.instance
         .collection(config.roomsCollectionName)
         .where('userIds', arrayContains: fu.uid)

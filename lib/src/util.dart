@@ -11,7 +11,7 @@ extension RoleToShortString on types.Role {
   }
 }
 
-final log = getLogger('KeyPadHead');
+final log = getLogger('Util:FlutterFirebaseChatCore');
 
 /// Extension with one [toShortString] method
 extension RoomTypeToShortString on types.RoomType {
@@ -27,7 +27,7 @@ Future<Map<String, dynamic>> fetchUser(
   String usersCollectionName, {
   String? role,
 }) async {
-  log.d(userId);
+  // log.d(userId);
   final doc = await FirebaseFirestore.instance
       .collection(usersCollectionName)
       .doc(userId)

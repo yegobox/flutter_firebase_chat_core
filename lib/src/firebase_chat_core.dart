@@ -339,7 +339,6 @@ class FirebaseChatCore {
       final messageMap = message.toJson();
       messageMap.removeWhere((key, value) => key == 'author' || key == 'id');
       messageMap['authorId'] = firebaseUser!.uid;
-      messageMap['createdAt'] = FieldValue.serverTimestamp();
       messageMap['updatedAt'] = FieldValue.serverTimestamp();
 
       await FirebaseFirestore.instance
@@ -358,9 +357,6 @@ class FirebaseChatCore {
 
     final roomMap = room.toJson();
     roomMap['updatedAt'] = FieldValue.serverTimestamp();
-    // FIXME: learn how to update lastMessages
-
-    // roomMap['lastMessages'] = FieldValue.arrayUnion(updatable['lastMessages']);
 
     await FirebaseFirestore.instance
         .collection(config.roomsCollectionName)

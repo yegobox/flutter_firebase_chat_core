@@ -165,7 +165,7 @@ class FirebaseChatCore {
       'metadata': user.metadata,
       'role': user.role?.toShortString(),
       'updatedAt': FieldValue.serverTimestamp(),
-    });
+    }).onError((error, stackTrace) => null);
   }
 
   Stream<List<Business>> contacts() {

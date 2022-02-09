@@ -169,17 +169,17 @@ class FirebaseChatCore {
     }).onError((error, stackTrace) => null);
   }
 
-  Stream<List<BusinessSync>> contacts() {
+  Stream<List<Business>> contacts() {
     return FirebaseFirestore.instance.collection('contacts').snapshots().map(
           (snapshot) => snapshot.docs
               .map(
-                (doc) => BusinessSync.fromJson(doc.data()),
+                (doc) => Business.fromJson(doc.data()),
               )
               .toList(),
         );
   }
 
-  void addContact({required BusinessSync contact}) {
+  void addContact({required Business contact}) {
     //check if in contacts collection there is no contact that has contact.userId
     // loop through contacts and check if contact.userId is in the list
     // if not add contact to contacts collection
